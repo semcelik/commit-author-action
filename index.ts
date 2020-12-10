@@ -16,8 +16,9 @@ const OUTPUT = {
   IS_VALID: 'is_valid',
 };
 
-async function checkEmail() {
-  const emailSuffix = getInput(INPUT.EMAIL_SUFFIX);
+async function checkEmail(): Promise<void> {
+  const input = getInput(INPUT.EMAIL_SUFFIX);
+  const emailSuffix = input.startsWith('@') ? input : `@${input}`;
 
   const commits: TCommit[] = context.payload.commits;
 
@@ -32,14 +33,15 @@ async function checkEmail() {
     setOutput(OUTPUT.IS_VALID, true);
     return info('Author email is valid');
   }
-
   const errorMessage = `Author email is invalid. Found: ${invalidEmails.join(
     ', '
-  )}it should be MAIL_PREFIX@${emailSuffix}`;
+  )}. It should be end with ${emailSuffix}`;
   setOutput(OUTPUT.IS_VALID, false);
   warning(errorMessage);
 }
 
 checkEmail().catch((error) => {
-  setFailed(error);
+  setFailed(error.message);
 });
+
+export default checkEmail;
