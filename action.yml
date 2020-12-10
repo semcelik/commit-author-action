@@ -1,0 +1,14 @@
+name: 'Check Commit Author'
+description: 'Checks the email of the commit author'
+inputs:
+  email_suffix:
+    description: 'suffix of the email pattern'
+    required: true
+
+outputs:
+  is_valid:
+    description: 'returns to result whether true or false'
+
+runs:
+  using: node12
+  main: dist/index.js
