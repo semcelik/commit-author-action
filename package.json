@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "main": "index.ts",
   "scripts": {
-    "tsc": "tsc",
-    "build": "ncc build index.ts -o dist",
+    "build": "ncc build index.ts --minify --out dist",
+    "start": "yarn build --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --max-warnings=0"
   },
@@ -24,5 +24,9 @@
     "eslint-plugin-prettier": "^3.2.0",
     "prettier": "^2.2.1",
     "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0"
   }
 }
