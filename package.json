@@ -1,6 +1,6 @@
 {
   "name": "@semcelik/commit-author-action",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "index.ts",
   "scripts": {
     "build": "ncc build index.ts --minify --out dist",
