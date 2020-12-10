@@ -19,7 +19,7 @@ This action checks commit's email address with given email suffix
 ## Example usage
 
 ```yaml
-uses: `##TODO`
+uses: semcelik/commit-author-action@master
 with:
   email_suffix: 'gmail.com'
 ```
