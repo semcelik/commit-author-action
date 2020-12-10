@@ -1,13 +1,7 @@
 {
   "name": "@semcelik/commit-author-action",
   "version": "0.1.2",
-  "main": "index.ts",
-  "scripts": {
-    "build": "ncc build index.ts --minify --out dist",
-    "start": "yarn build --watch",
-    "test": "jest",
-    "lint": "eslint --max-warnings=0"
-  },
+  "main": "src/index.ts",
   "keywords": [
     "action",
     "github-action"
@@ -15,6 +9,12 @@
   "author": "semcelik",
   "license": "ISC",
   "description": "An action for commit's email pattern",
+  "scripts": {
+    "build": "ncc build src/index.ts --minify --out dist",
+    "start": "yarn build --watch",
+    "test": "jest",
+    "lint": "eslint --max-warnings=0"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.18",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
@@ -23,7 +23,9 @@
     "eslint": "7.2.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.2.0",
+    "husky": "^4.3.5",
     "jest": "^26.6.3",
+    "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.2"

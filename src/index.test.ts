@@ -1,7 +1,7 @@
 import { getInput, info, setFailed, setOutput, warning } from '@actions/core';
 import { context } from '@actions/github';
 
-import checkEmail from '../index';
+import checkEmail from '.';
 
 import Mock = jest.Mock;
 
