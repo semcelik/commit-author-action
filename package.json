@@ -1,0 +1,26 @@
+{
+  "name": "@semcelik/commit-author-action",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --max-warnings=0"
+  },
+  "keywords": [
+    "action",
+    "github-action"
+  ],
+  "author": "semcelik",
+  "license": "ISC",
+  "description": "An action for commit's email pattern",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "eslint": "7.2.0",
+    "eslint-config-prettier": "^7.0.0",
+    "eslint-plugin-prettier": "^3.2.0",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.2"
+  }
+}
