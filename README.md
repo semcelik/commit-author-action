@@ -1,5 +1,7 @@
 # commit-author-action
 
+![Test Runner](https://github.com/semcelik/commit-author-action/workflows/Test%20Runner/badge.svg?branch=master)
+
 This action checks commit's email address with given email suffix
 
 ## Inputs
