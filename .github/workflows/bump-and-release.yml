@@ -1,0 +1,70 @@
+name: Bump and Release
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  NODE_VERSION: 14.x
+
+jobs:
+  bump-version:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    outputs:
+      newTag: ${{ steps.version-bump.outputs.newTag }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Get Current Version
+        run: cat package.json | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["version"]'
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Bump Version
+        id: version-bump
+        uses: phips28/gh-action-bump-version@master
+        with:
+          tag-prefix: ''
+          minor-wording: 'MINOR'
+          major-wording: 'MAJOR'
+          patch-wording: 'PATCH'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get New Version
+        run: cat package.json | python -c 'import json,sys;obj=json.load(sys.stdin);print obj["version"]'
+
+      - name: Create New Tag
+        env:
+          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
+        run: echo "new tag $NEW_TAG"
+
+  create-release:
+    name: Create Release
+    needs: bump-version
+    if: startsWith(needs.bump-version.outputs.newTag, 'v')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get tag from previous job
+        run: echo "Generating release with the ${{needs.bump-version.outputs.newTag}} tag"
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{needs.bump-version.outputs.newTag}}
+          release_name: Release ${{needs.bump-version.outputs.newTag}}
+          draft: false
+          prerelease: false
