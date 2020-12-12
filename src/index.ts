@@ -6,7 +6,7 @@ import getCommitEmails from 'helpers/getCommitEmails';
 import formatEmailDomain from 'helpers/formatEmailDomain';
 
 async function checkEmail(): Promise<void> {
-  const emailDomainInput = getInput(INPUT.EMAIL_SUFFIX, { required: true });
+  const emailDomainInput = getInput(INPUT.EMAIL_DOMAIN, { required: true });
   const emailDomain = formatEmailDomain(emailDomainInput);
   info(`Email domain: ${emailDomain}`);
 

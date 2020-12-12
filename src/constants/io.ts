@@ -1,5 +1,5 @@
 export const INPUT = {
-  EMAIL_SUFFIX: 'email_suffix',
+  EMAIL_DOMAIN: 'email_domain',
   GITHUB_TOKEN: 'github_token',
 };
 

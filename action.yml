@@ -1,8 +1,8 @@
 name: 'Check Commit Author'
 description: 'Checks the email of the commit author'
 inputs:
-  email_suffix:
-    description: 'suffix of the email pattern'
+  email_domain:
+    description: 'domain of the email'
     required: true
   github_token:
     description: 'GitHub token'

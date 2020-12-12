@@ -15,6 +15,5 @@ export async function fetchCommitsInPullRequest(
     repo: context.repo.repo,
     pull_number: pullRequestNumber,
   });
-  console.log('RESPONSE', JSON.stringify(response));
   return response.data;
 }
