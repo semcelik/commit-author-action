@@ -7,6 +7,10 @@ inputs:
   github_token:
     description: 'GitHub token'
     required: true
+  error_on_fail:
+    description: 'Decides if action should throw an error on invalid email or not'
+    required: false
+    default: 'true'
 outputs:
   is_valid:
     description: 'returns to result whether true or false'
