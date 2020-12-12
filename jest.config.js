@@ -5,6 +5,7 @@ module.exports = {
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFiles: ['./mocks/@actions/core.ts', './mocks/@actions/github.ts'],
+  modulePaths: ['src'],
+  setupFiles: ['./mocks/@actions/core.ts', './mocks/@actions/github.ts', './src/jest/setup.ts'],
   clearMocks: true,
 };
