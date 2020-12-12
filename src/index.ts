@@ -2,6 +2,7 @@ import { getInput, setOutput, setFailed, info, warning } from '@actions/core';
 
 import { INPUT, OUTPUT } from 'constants/io';
 import { GITHUB_EVENT } from 'constants/env';
+import { FALSE } from 'constants/boolean';
 import getCommitEmails from 'helpers/getCommitEmails';
 import formatEmailDomain from 'helpers/formatEmailDomain';
 
@@ -31,9 +32,14 @@ function handleSetOutput(invalidEmails: string[], emailDomain: string): void {
     return info('Emails are valid');
   }
 
-  warning(
-    `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomain}`
-  );
+  const errorOnFail = getInput(INPUT.ERROR_ON_FAIL);
+  const errorMessage = `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomain}`;
+
+  if (errorOnFail === FALSE) {
+    warning(errorMessage);
+  } else {
+    throw Error(errorMessage);
+  }
 }
 
 checkEmail().catch((error) => {

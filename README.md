@@ -14,6 +14,15 @@ This action checks commit's email address with given email suffix
 
 **Required** Github token 
 
+
+### `error_on_fail`
+
+**Default** `true
+ 
+`"true"` Throws an error and fails workflow
+
+`"false"` Doesn't fails workflow, writes invalid emails as a warning
+
 ## Outputs
 
 ### `is_valid`
@@ -27,4 +36,5 @@ uses: semcelik/commit-author-action@master
 with:
   email_domain: 'gmail.com'
   github_token: ${{ secrets.GITHUB_TOKEN }}
+  error_on_fail: 'false'
 ```
