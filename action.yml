@@ -4,7 +4,9 @@ inputs:
   email_suffix:
     description: 'suffix of the email pattern'
     required: true
-
+  github_token:
+    description: 'GitHub token'
+    required: true
 outputs:
   is_valid:
     description: 'returns to result whether true or false'

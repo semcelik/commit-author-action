@@ -1,43 +1,39 @@
 import { getInput, setOutput, setFailed, info, warning } from '@actions/core';
-import { context } from '@actions/github';
 
-type TCommit = {
-  author: {
-    name: string;
-    email: string;
-  };
-};
-
-const INPUT = {
-  EMAIL_SUFFIX: 'email_suffix',
-};
-
-const OUTPUT = {
-  IS_VALID: 'is_valid',
-};
+import { INPUT, OUTPUT } from 'constants/io';
+import { GITHUB_EVENT } from 'constants/env';
+import getCommitEmails from 'helpers/getCommitEmails';
+import formatEmailDomain from 'helpers/formatEmailDomain';
 
 async function checkEmail(): Promise<void> {
-  const input = getInput(INPUT.EMAIL_SUFFIX);
-  const emailSuffix = input.startsWith('@') ? input : `@${input}`;
+  const emailDomainInput = getInput(INPUT.EMAIL_SUFFIX, { required: true });
+  const emailDomain = formatEmailDomain(emailDomainInput);
+  info(`Email domain: ${emailDomain}`);
 
-  const commits: TCommit[] = context.payload.commits;
+  const commitEmails = await getCommitEmails(GITHUB_EVENT);
 
-  const commitEmails = commits.map((commit) => commit.author.email);
-
-  info(`Email prefix pattern: ${emailSuffix}`);
-  info(`Emails to check: ${commitEmails.join(', ')}`);
-
-  const invalidEmails = commitEmails.filter((email) => !email.endsWith(emailSuffix));
-
-  if (invalidEmails.length === 0) {
-    setOutput(OUTPUT.IS_VALID, true);
-    return info('Author email is valid');
+  if (!commitEmails) {
+    return warning('Could not found emails');
   }
-  const errorMessage = `Author email is invalid. Found: ${invalidEmails.join(
-    ', '
-  )}. It should be end with ${emailSuffix}`;
-  setOutput(OUTPUT.IS_VALID, false);
-  warning(errorMessage);
+  info(`Emails to check: ${commitEmails}`);
+
+  const invalidEmails = commitEmails.filter((email) => !email.endsWith(emailDomain));
+
+  handleSetOutput(invalidEmails, emailDomain);
+}
+
+function handleSetOutput(invalidEmails: string[], emailDomain: string): void {
+  const isValid = invalidEmails.length === 0;
+
+  setOutput(OUTPUT.IS_VALID, isValid);
+
+  if (isValid) {
+    return info('Emails are valid');
+  }
+
+  warning(
+    `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomain}`
+  );
 }
 
 checkEmail().catch((error) => {
