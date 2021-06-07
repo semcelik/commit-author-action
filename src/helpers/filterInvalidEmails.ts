@@ -1,8 +1,12 @@
 import formatEmailDomain from './formatEmailDomain';
 
 function filterInvalidEmails(emailDomainInput: string, commitEmails: string[]): string[] {
-  const emailDomain = formatEmailDomain(emailDomainInput);
-  const invalidEmails = commitEmails.filter((email) => !email.endsWith(emailDomain));
+  const allowedDomains = emailDomainInput.replace(/\s/g, '').split(',').map(formatEmailDomain);
+
+  const invalidEmails = commitEmails.filter((commitEmail) =>
+    allowedDomains.every((domain) => !commitEmail.endsWith(domain))
+  );
+
   return invalidEmails;
 }
 

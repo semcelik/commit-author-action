@@ -13,7 +13,7 @@ describe('filterInvalidEmails', () => {
     expect(filterInvalidEmails(emailDomainInput, commitEmails)).toEqual([]);
   });
 
-  it.skip('should filter invalid emails from multiple domains', () => {
+  it('should filter invalid emails from multiple domains', () => {
     const emailDomainInput = '@gmail.com,hotmail.com,outlook.com';
     const commitEmails = ['a@gmail.com', 'a.b@hotmail.com', 'a+b@outlook.com', 'd_f@dropbox.com'];
     expect(filterInvalidEmails(emailDomainInput, commitEmails)).toEqual(['d_f@dropbox.com']);
