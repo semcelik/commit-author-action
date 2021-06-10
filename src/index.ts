@@ -22,7 +22,7 @@ async function checkEmail(): Promise<void> {
   handleSetOutput(invalidEmails, emailDomainInput);
 }
 
-function handleSetOutput(invalidEmails: string[], emailDomain: string): void {
+function handleSetOutput(invalidEmails: string[], emailDomains: string): void {
   const isValid = invalidEmails.length === 0;
 
   setOutput(OUTPUT.IS_VALID, isValid);
@@ -32,7 +32,7 @@ function handleSetOutput(invalidEmails: string[], emailDomain: string): void {
   }
 
   const errorOnFail = getInput(INPUT.ERROR_ON_FAIL);
-  const errorMessage = `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomain}`;
+  const errorMessage = `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomains}`;
 
   if (errorOnFail === FALSE) {
     warning(errorMessage);
