@@ -4,12 +4,11 @@ import { INPUT, OUTPUT } from 'constants/io';
 import { GITHUB_EVENT } from 'constants/env';
 import { FALSE } from 'constants/boolean';
 import getCommitEmails from 'helpers/getCommitEmails';
-import formatEmailDomain from 'helpers/formatEmailDomain';
+import filterInvalidEmails from 'helpers/filterInvalidEmails';
 
 async function checkEmail(): Promise<void> {
   const emailDomainInput = getInput(INPUT.EMAIL_DOMAIN, { required: true });
-  const emailDomain = formatEmailDomain(emailDomainInput);
-  info(`Email domain: ${emailDomain}`);
+  info(`Email domain: ${emailDomainInput}`);
 
   const commitEmails = await getCommitEmails(GITHUB_EVENT);
 
@@ -18,12 +17,12 @@ async function checkEmail(): Promise<void> {
   }
   info(`Emails to check: ${commitEmails}`);
 
-  const invalidEmails = commitEmails.filter((email) => !email.endsWith(emailDomain));
+  const invalidEmails = filterInvalidEmails(emailDomainInput, commitEmails);
 
-  handleSetOutput(invalidEmails, emailDomain);
+  handleSetOutput(invalidEmails, emailDomainInput);
 }
 
-function handleSetOutput(invalidEmails: string[], emailDomain: string): void {
+function handleSetOutput(invalidEmails: string[], emailDomainInput: string): void {
   const isValid = invalidEmails.length === 0;
 
   setOutput(OUTPUT.IS_VALID, isValid);
@@ -33,7 +32,7 @@ function handleSetOutput(invalidEmails: string[], emailDomain: string): void {
   }
 
   const errorOnFail = getInput(INPUT.ERROR_ON_FAIL);
-  const errorMessage = `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomain}`;
+  const errorMessage = `Invalid emails found. Invalid emails: ${invalidEmails}. It should be end with ${emailDomainInput}`;
 
   if (errorOnFail === FALSE) {
     warning(errorMessage);
